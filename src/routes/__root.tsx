@@ -1,3 +1,9 @@
+import "@fontsource/dm-serif-display/400.css";
+import "@fontsource/work-sans/400.css";
+import "@fontsource/work-sans/500.css";
+import "@fontsource/work-sans/600.css";
+import "@fontsource/work-sans/700.css";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -11,6 +17,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import logoAsset from "../assets/logo5.png.asset.json";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +84,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "TK House - Barbearia Tiago Estevão" },
+      { name: "description", content: "Marcações online na TK House. Corte e barba com Tiago Estevão. Curso @cunha24. Motherfucking Style." },
+      { name: "author", content: "TK House" },
+      { property: "og:title", content: "TK House - Barbearia Tiago Estevão" },
+      { property: "og:description", content: "Marcações online na TK House. Corte e barba com Tiago Estevão. Motherfucking Style." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@kouratus.barber_" },
     ],
     links: [
       {
@@ -99,9 +106,71 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+function Header() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+        <Link to="/" className="flex items-center gap-2">
+          <img
+            src={logoAsset.url}
+            alt="TK House Logo"
+            className="h-10 w-auto"
+          />
+        </Link>
+        <nav className="flex items-center gap-6">
+          <Link
+            to="/"
+            className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
+            activeProps={{ className: "text-primary" }}
+          >
+            Início
+          </Link>
+          <Link
+            to="/agendar"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Marcar
+          </Link>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-border/50 bg-background">
+      <div className="mx-auto max-w-6xl px-4 py-8">
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <div className="flex items-center gap-2">
+            <img
+              src={logoAsset.url}
+              alt="TK House Logo"
+              className="h-8 w-auto opacity-70"
+            />
+          </div>
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} TK House. Motherfucking Style.
+          </p>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://instagram.com/kouratus.barber_"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-muted-foreground transition-colors hover:text-primary"
+            >
+              Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt">
       <head>
         <HeadContent />
       </head>
@@ -118,8 +187,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </QueryClientProvider>
   );
 }

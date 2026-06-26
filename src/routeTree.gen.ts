@@ -9,38 +9,65 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AgendarRouteImport } from './routes/agendar'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConfirmacaoBookingIdRouteImport } from './routes/confirmacao.$bookingId'
 
+const AgendarRoute = AgendarRouteImport.update({
+  id: '/agendar',
+  path: '/agendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfirmacaoBookingIdRoute = ConfirmacaoBookingIdRouteImport.update({
+  id: '/confirmacao/$bookingId',
+  path: '/confirmacao/$bookingId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agendar': typeof AgendarRoute
+  '/confirmacao/$bookingId': typeof ConfirmacaoBookingIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agendar': typeof AgendarRoute
+  '/confirmacao/$bookingId': typeof ConfirmacaoBookingIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agendar': typeof AgendarRoute
+  '/confirmacao/$bookingId': typeof ConfirmacaoBookingIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/agendar' | '/confirmacao/$bookingId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/agendar' | '/confirmacao/$bookingId'
+  id: '__root__' | '/' | '/agendar' | '/confirmacao/$bookingId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgendarRoute: typeof AgendarRoute
+  ConfirmacaoBookingIdRoute: typeof ConfirmacaoBookingIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/agendar': {
+      id: '/agendar'
+      path: '/agendar'
+      fullPath: '/agendar'
+      preLoaderRoute: typeof AgendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/confirmacao/$bookingId': {
+      id: '/confirmacao/$bookingId'
+      path: '/confirmacao/$bookingId'
+      fullPath: '/confirmacao/$bookingId'
+      preLoaderRoute: typeof ConfirmacaoBookingIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgendarRoute: AgendarRoute,
+  ConfirmacaoBookingIdRoute: ConfirmacaoBookingIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

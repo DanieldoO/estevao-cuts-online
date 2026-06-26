@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { Scissors, Clock, MapPin, Phone, Instagram, Award, Crown } from "lucide-react";
-import logoAsset from "../assets/logo5.png.asset.json";
+import logoAsset from "../assets/logo.png.asset.json";
 import { getServices } from "@/lib/booking.functions";
 
 const servicesQueryOptions = queryOptions({

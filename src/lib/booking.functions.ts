@@ -63,6 +63,7 @@ export const getAvailableSlots = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const supabase = createPublicClient();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     // Get service duration
     const { data: serviceData, error: serviceError } = await supabase
@@ -77,7 +78,7 @@ export const getAvailableSlots = createServerFn({ method: "POST" })
     const slotsNeeded = Math.ceil(duration / SLOT_MINUTES);
 
     // Get existing bookings for that date
-    const { data: bookings, error: bookingsError } = await supabase
+    const { data: bookings, error: bookingsError } = await supabaseAdmin
       .from("bookings")
       .select("start_time, end_time")
       .eq("booking_date", data.date)
@@ -139,6 +140,7 @@ export const createBooking = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const supabase = createPublicClient();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     // Get service duration
     const { data: serviceData, error: serviceError } = await supabase
@@ -152,25 +154,11 @@ export const createBooking = createServerFn({ method: "POST" })
     const duration = serviceData.duration_minutes;
     const endTime = addMinutes(data.startTime, duration);
 
-    // Verify slot is still available
-    const { data: existing, error: checkError } = await supabase
-      .from("bookings")
-      .select("id")
-      .eq("booking_date", data.bookingDate)
-      .neq("status", "cancelled");
-
-    if (checkError) throw new Error(checkError.message);
-
     const slotStart = timeToMinutes(data.startTime);
     const slotEnd = slotStart + duration;
 
-    for (const b of (existing ?? [])) {
-      // Need to fetch start/end times - we already have them from the select above
-      // Actually we fetched id only, let me refetch with times
-    }
-
-    // Re-fetch with times
-    const { data: existingBookings, error: existingError } = await supabase
+    // Fetch existing bookings to check overlap
+    const { data: existingBookings, error: existingError } = await supabaseAdmin
       .from("bookings")
       .select("start_time, end_time")
       .eq("booking_date", data.bookingDate)
@@ -209,8 +197,8 @@ export const getBooking = createServerFn({ method: "POST" })
     return z.object({ id: z.string().uuid() }).parse(data);
   })
   .handler(async ({ data }) => {
-    const supabase = createPublicClient();
-    const { data: booking, error } = await supabase
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: booking, error } = await supabaseAdmin
       .from("bookings")
       .select("*, services(name, price_euros, duration_minutes)")
       .eq("id", data.id)

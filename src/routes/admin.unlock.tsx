@@ -39,7 +39,7 @@ function UnlockPage() {
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col items-center justify-center px-4">
       <div className="w-full rounded-lg border border-border bg-card p-8 shadow-lg">
-        <h1 className="font-serif text-3xl text-foreground">Área do Barbeiro</h1>
+        <h1 className="font-serif text-3xl text-foreground">Kouratus's Zone</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Introduz a password para ver as marcações.
         </p>

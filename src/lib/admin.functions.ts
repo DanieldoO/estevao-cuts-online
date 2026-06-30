@@ -12,7 +12,7 @@ function getSessionConfig() {
   if (!password) throw new Error("SESSION_SECRET não está configurado");
   return {
     password,
-    name: "koratus-admin",
+    name: "kouratos-admin",
     maxAge: 60 * 60 * 12,
     cookie: {
       httpOnly: true,

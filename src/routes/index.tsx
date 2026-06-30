@@ -12,10 +12,10 @@ const servicesQueryOptions = queryOptions({
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Koratus Barber Club" },
-      { name: "description", content: "Marcações online na Koratus Barber Club. Corte e barba com qualidade profissional." },
-      { property: "og:title", content: "Koratus Barber Club" },
-      { property: "og:description", content: "Marcações online na Koratus Barber Club. Corte e barba com qualidade profissional." },
+      { title: "Kouratos Barber Club" },
+      { name: "description", content: "Marcações online na Kouratos Barber Club. Corte e barba com qualidade profissional." },
+      { property: "og:title", content: "Kouratos Barber Club" },
+      { property: "og:description", content: "Marcações online na Kouratos Barber Club. Corte e barba com qualidade profissional." },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(servicesQueryOptions),
@@ -39,7 +39,7 @@ function HomePage() {
         <div className="absolute inset-0">
           <img
             src="/images/hero.jpg"
-            alt="Koratus Barber Club"
+            alt="Kouratos Barber Club"
             className="h-full w-full object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" />
@@ -47,11 +47,11 @@ function HomePage() {
         <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
           <img
             src={logoAsset.url}
-            alt="Koratus Barber Club Logo"
+            alt="Kouratos Barber Club Logo"
             className="mx-auto mb-6 h-auto w-48 sm:w-64"
           />
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-            Koratus Barber Club
+            Kouratos Barber Club
           </h1>
           <p className="mb-2 text-lg text-primary sm:text-xl">Barber</p>
           <p className="mb-8 text-muted-foreground">Curso tirado com @cunha24</p>
@@ -151,7 +151,7 @@ function HomePage() {
       <section className="mx-auto max-w-4xl px-4 py-20 text-center">
         <Crown className="mx-auto mb-6 h-12 w-12 text-primary" />
         <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-          Koratus Barber Club
+          Kouratos Barber Club
         </h2>
         <p className="mb-8 text-lg text-muted-foreground">
           Agora a tua marcação é feita online. Rápido, simples e sem complicações.

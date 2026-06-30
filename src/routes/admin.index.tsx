@@ -12,7 +12,7 @@ const bookingsQueryOptions = queryOptions({
 export const Route = createFileRoute("/admin/")({
   head: () => ({
     meta: [
-      { title: "Admin — Koratus Barber Club" },
+      { title: "Admin — Kouratos Barber Club" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

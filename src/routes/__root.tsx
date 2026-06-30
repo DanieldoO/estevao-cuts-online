@@ -84,11 +84,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Koratus Barber Club" },
-      { name: "description", content: "Marcações online na Koratus Barber Club. Corte e barba. Curso @cunha24." },
-      { name: "author", content: "Koratus Barber Club" },
-      { property: "og:title", content: "Koratus Barber Club" },
-      { property: "og:description", content: "Marcações online na Koratus Barber Club. Corte e barba." },
+      { title: "Kouratos Barber Club" },
+      { name: "description", content: "Marcações online na Kouratos Barber Club. Corte e barba. Curso @cunha24." },
+      { name: "author", content: "Kouratos Barber Club" },
+      { property: "og:title", content: "Kouratos Barber Club" },
+      { property: "og:description", content: "Marcações online na Kouratos Barber Club. Corte e barba." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@kouratus.barber_" },
@@ -113,7 +113,7 @@ function Header() {
         <Link to="/" className="flex items-center gap-2">
           <img
             src={logoAsset.url}
-            alt="Koratus Barber Club Logo"
+            alt="Kouratos Barber Club Logo"
             className="h-10 w-auto"
           />
         </Link>
@@ -145,12 +145,12 @@ function Footer() {
           <div className="flex items-center gap-2">
             <img
               src={logoAsset.url}
-              alt="Koratus Barber Club Logo"
+              alt="Kouratos Barber Club Logo"
               className="h-8 w-auto opacity-70"
             />
           </div>
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Koratus Barber Club.
+            © {new Date().getFullYear()} Kouratos Barber Club.
           </p>
           <div className="flex items-center gap-4">
             <a

@@ -84,11 +84,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "TK House - Barbearia Tiago Estevão" },
-      { name: "description", content: "Marcações online na TK House. Corte e barba com Tiago Estevão. Curso @cunha24. Motherfucking Style." },
-      { name: "author", content: "TK House" },
-      { property: "og:title", content: "TK House - Barbearia Tiago Estevão" },
-      { property: "og:description", content: "Marcações online na TK House. Corte e barba com Tiago Estevão. Motherfucking Style." },
+      { title: "Koratus Barber Club - Barbearia Tiago Estevão" },
+      { name: "description", content: "Marcações online na Koratus Barber Club. Corte e barba com Tiago Estevão. Curso @cunha24." },
+      { name: "author", content: "Koratus Barber Club" },
+      { property: "og:title", content: "Koratus Barber Club - Barbearia Tiago Estevão" },
+      { property: "og:description", content: "Marcações online na Koratus Barber Club. Corte e barba com Tiago Estevão." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@kouratus.barber_" },
@@ -113,7 +113,7 @@ function Header() {
         <Link to="/" className="flex items-center gap-2">
           <img
             src={logoAsset.url}
-            alt="TK House Logo"
+            alt="Koratus Barber Club Logo"
             className="h-10 w-auto"
           />
         </Link>
@@ -145,12 +145,12 @@ function Footer() {
           <div className="flex items-center gap-2">
             <img
               src={logoAsset.url}
-              alt="TK House Logo"
+              alt="Koratus Barber Club Logo"
               className="h-8 w-auto opacity-70"
             />
           </div>
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} TK House. Motherfucking Style.
+            © {new Date().getFullYear()} Koratus Barber Club.
           </p>
           <div className="flex items-center gap-4">
             <a

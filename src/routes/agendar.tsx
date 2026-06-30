@@ -34,8 +34,8 @@ type BookingForm = z.infer<typeof bookingSchema>;
 export const Route = createFileRoute("/agendar")({
   head: () => ({
     meta: [
-      { title: "Marcar - TK House" },
-      { name: "description", content: "Marca o teu corte ou barba na TK House." },
+      { title: "Marcar - Koratus Barber Club" },
+      { name: "description", content: "Marca o teu corte ou barba na Koratus Barber Club." },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(servicesQueryOptions),

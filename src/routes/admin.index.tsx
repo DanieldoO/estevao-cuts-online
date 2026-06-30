@@ -16,7 +16,13 @@ export const Route = createFileRoute("/admin/")({
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(bookingsQueryOptions),
+  loader: async ({ context }) => {
+    // Call directly first so a thrown redirect (session expired) is handled
+    // by the router instead of being swallowed by React Query as an error.
+    const data = await listBookings();
+    context.queryClient.setQueryData(bookingsQueryOptions.queryKey, data);
+    return data;
+  },
   component: AdminPage,
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-md p-8 text-center">

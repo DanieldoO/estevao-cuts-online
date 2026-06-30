@@ -14,8 +14,8 @@ const bookingQueryOptions = (id: string) =>
 export const Route = createFileRoute("/confirmacao/$bookingId")({
   head: () => ({
     meta: [
-      { title: "Marcação Confirmada - Koratus Barber Club" },
-      { name: "description", content: "A tua marcação na Koratus Barber Club foi confirmada com sucesso." },
+      { title: "Marcação Confirmada - Kouratos Barber Club" },
+      { name: "description", content: "A tua marcação na Kouratos Barber Club foi confirmada com sucesso." },
     ],
   }),
   loader: ({ context, params }) =>

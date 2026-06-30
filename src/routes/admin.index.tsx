@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter, Link } from "@tanstack/react-router";
+import { createFileRoute, useRouter, Link, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
 import { queryOptions, useSuspenseQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,11 +17,10 @@ export const Route = createFileRoute("/admin/")({
     ],
   }),
   loader: async ({ context }) => {
-    // Call directly first so a thrown redirect (session expired) is handled
-    // by the router instead of being swallowed by React Query as an error.
-    const data = await listBookings();
-    context.queryClient.setQueryData(bookingsQueryOptions.queryKey, data);
-    return data;
+    const result = await listBookings();
+    if (!result.unlocked) throw redirect({ to: "/admin/unlock" });
+    context.queryClient.setQueryData(bookingsQueryOptions.queryKey, result);
+    return result;
   },
   component: AdminPage,
   errorComponent: ({ error }) => (
@@ -34,7 +33,7 @@ export const Route = createFileRoute("/admin/")({
   ),
 });
 
-type BookingRow = Awaited<ReturnType<typeof listBookings>>[number];
+type BookingRow = Awaited<ReturnType<typeof listBookings>>["bookings"][number];
 
 function formatDate(d: string): string {
   const [y, m, day] = d.split("-");
@@ -52,7 +51,7 @@ function todayISO(): string {
 function AdminPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { data: bookings } = useSuspenseQuery(bookingsQueryOptions);
+  const { data: bookingsResult } = useSuspenseQuery(bookingsQueryOptions);
   const cancel = useServerFn(cancelBooking);
   const remove = useServerFn(deleteBooking);
   const lock = useServerFn(lockAdmin);
@@ -61,6 +60,7 @@ function AdminPage() {
   const [search, setSearch] = useState("");
 
   const today = todayISO();
+  const bookings = bookingsResult.unlocked ? bookingsResult.bookings : [];
 
   const filtered = useMemo(() => {
     let list: BookingRow[] = bookings;
@@ -104,13 +104,21 @@ function AdminPage() {
 
   async function handleCancel(id: string) {
     if (!confirm("Cancelar esta marcação?")) return;
-    await cancel({ data: { id } });
+    const result = await cancel({ data: { id } });
+    if (!result.ok) {
+      await router.navigate({ to: "/admin/unlock" });
+      return;
+    }
     await queryClient.invalidateQueries({ queryKey: ["admin", "bookings"] });
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Eliminar permanentemente esta marcação?")) return;
-    await remove({ data: { id } });
+    const result = await remove({ data: { id } });
+    if (!result.ok) {
+      await router.navigate({ to: "/admin/unlock" });
+      return;
+    }
     await queryClient.invalidateQueries({ queryKey: ["admin", "bookings"] });
   }
 

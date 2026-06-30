@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { useSession } from "@tanstack/react-start/server";
-import { redirect } from "@tanstack/react-router";
 import { z } from "zod";
 import { createHash, timingSafeEqual } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
@@ -31,12 +30,9 @@ function passwordMatches(input: string, expected: string): boolean {
   return timingSafeEqual(a, b);
 }
 
-async function requireUnlocked() {
+async function isAdminUnlocked() {
   const session = await useSession<AdminSession>(getSessionConfig());
-  if (!session.data.unlocked) {
-    throw redirect({ to: "/admin/unlock" });
-  }
-  return session;
+  return Boolean(session.data.unlocked);
 }
 
 function createAdminClient() {
@@ -69,7 +65,9 @@ export const lockAdmin = createServerFn({ method: "POST" }).handler(async () => 
 });
 
 export const listBookings = createServerFn({ method: "GET" }).handler(async () => {
-  await requireUnlocked();
+  const unlocked = await isAdminUnlocked();
+  if (!unlocked) return { unlocked: false as const, bookings: [] };
+
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("bookings")
@@ -77,7 +75,7 @@ export const listBookings = createServerFn({ method: "GET" }).handler(async () =
     .order("booking_date", { ascending: false })
     .order("start_time", { ascending: true });
   if (error) throw new Error(error.message);
-  return data ?? [];
+  return { unlocked: true as const, bookings: data ?? [] };
 });
 
 export const cancelBooking = createServerFn({ method: "POST" })
@@ -85,7 +83,9 @@ export const cancelBooking = createServerFn({ method: "POST" })
     z.object({ id: z.string().uuid() }).parse(data),
   )
   .handler(async ({ data }) => {
-    await requireUnlocked();
+    const unlocked = await isAdminUnlocked();
+    if (!unlocked) return { ok: false as const, reason: "locked" as const };
+
     const supabase = createAdminClient();
     const { error } = await supabase
       .from("bookings")
@@ -100,7 +100,9 @@ export const deleteBooking = createServerFn({ method: "POST" })
     z.object({ id: z.string().uuid() }).parse(data),
   )
   .handler(async ({ data }) => {
-    await requireUnlocked();
+    const unlocked = await isAdminUnlocked();
+    if (!unlocked) return { ok: false as const, reason: "locked" as const };
+
     const supabase = createAdminClient();
     const { error } = await supabase.from("bookings").delete().eq("id", data.id);
     if (error) throw new Error(error.message);

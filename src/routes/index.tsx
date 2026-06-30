@@ -12,10 +12,10 @@ const servicesQueryOptions = queryOptions({
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Koratus Barber Club - Barbearia Tiago Estevão" },
-      { name: "description", content: "Marcações online na Koratus Barber Club. Corte e barba com Tiago Estevão." },
-      { property: "og:title", content: "Koratus Barber Club - Barbearia Tiago Estevão" },
-      { property: "og:description", content: "Marcações online na Koratus Barber Club. Corte e barba com Tiago Estevão." },
+      { title: "Koratus Barber Club" },
+      { name: "description", content: "Marcações online na Koratus Barber Club. Corte e barba com qualidade profissional." },
+      { property: "og:title", content: "Koratus Barber Club" },
+      { property: "og:description", content: "Marcações online na Koratus Barber Club. Corte e barba com qualidade profissional." },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(servicesQueryOptions),
@@ -51,7 +51,7 @@ function HomePage() {
             className="mx-auto mb-6 h-auto w-48 sm:w-64"
           />
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-            Tiago Estevão
+            Koratus Barber Club
           </h1>
           <p className="mb-2 text-lg text-primary sm:text-xl">Barber</p>
           <p className="mb-8 text-muted-foreground">Curso tirado com @cunha24</p>

@@ -41,7 +41,7 @@ function UnlockPage() {
       <div className="w-full rounded-lg border border-border bg-card p-8 shadow-lg">
         <h1 className="font-serif text-3xl text-foreground">Kouratus's Zone</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          É aqui que a magia funciona.
+          É aqui que a magia acontece 🎩🪄
         </p>
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <input

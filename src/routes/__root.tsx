@@ -161,6 +161,12 @@ function Footer() {
             >
               Instagram
             </a>
+            <Link
+              to="/admin"
+              className="text-sm text-muted-foreground/60 transition-colors hover:text-primary"
+            >
+              Admin
+            </Link>
           </div>
         </div>
       </div>

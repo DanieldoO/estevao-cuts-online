@@ -145,12 +145,12 @@ function Footer() {
           <div className="flex items-center gap-2">
             <img
               src={logoAsset.url}
-              alt="TK House Logo"
+              alt="Koratus Barber Club Logo"
               className="h-8 w-auto opacity-70"
             />
           </div>
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} TK House. Motherfucking Style.
+            © {new Date().getFullYear()} Koratus Barber Club.
           </p>
           <div className="flex items-center gap-4">
             <a

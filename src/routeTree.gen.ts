@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AgendarRouteImport } from './routes/agendar'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConfirmacaoBookingIdRouteImport } from './routes/confirmacao.$bookingId'
+import { Route as AdminUnlockRouteImport } from './routes/admin.unlock'
 
 const AgendarRoute = AgendarRouteImport.update({
   id: '/agendar',
@@ -28,34 +29,44 @@ const ConfirmacaoBookingIdRoute = ConfirmacaoBookingIdRouteImport.update({
   path: '/confirmacao/$bookingId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUnlockRoute = AdminUnlockRouteImport.update({
+  id: '/admin/unlock',
+  path: '/admin/unlock',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agendar': typeof AgendarRoute
+  '/admin/unlock': typeof AdminUnlockRoute
   '/confirmacao/$bookingId': typeof ConfirmacaoBookingIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agendar': typeof AgendarRoute
+  '/admin/unlock': typeof AdminUnlockRoute
   '/confirmacao/$bookingId': typeof ConfirmacaoBookingIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agendar': typeof AgendarRoute
+  '/admin/unlock': typeof AdminUnlockRoute
   '/confirmacao/$bookingId': typeof ConfirmacaoBookingIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agendar' | '/confirmacao/$bookingId'
+  fullPaths: '/' | '/agendar' | '/admin/unlock' | '/confirmacao/$bookingId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agendar' | '/confirmacao/$bookingId'
-  id: '__root__' | '/' | '/agendar' | '/confirmacao/$bookingId'
+  to: '/' | '/agendar' | '/admin/unlock' | '/confirmacao/$bookingId'
+  id:
+    '__root__' | '/' | '/agendar' | '/admin/unlock' | '/confirmacao/$bookingId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgendarRoute: typeof AgendarRoute
+  AdminUnlockRoute: typeof AdminUnlockRoute
   ConfirmacaoBookingIdRoute: typeof ConfirmacaoBookingIdRoute
 }
 
@@ -82,12 +93,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConfirmacaoBookingIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/unlock': {
+      id: '/admin/unlock'
+      path: '/admin/unlock'
+      fullPath: '/admin/unlock'
+      preLoaderRoute: typeof AdminUnlockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgendarRoute: AgendarRoute,
+  AdminUnlockRoute: AdminUnlockRoute,
   ConfirmacaoBookingIdRoute: ConfirmacaoBookingIdRoute,
 }
 export const routeTree = rootRouteImport

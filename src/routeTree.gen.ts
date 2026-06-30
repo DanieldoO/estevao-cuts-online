@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AgendarRouteImport } from './routes/agendar'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ConfirmacaoBookingIdRouteImport } from './routes/confirmacao.$bookingId'
+import { Route as AdminUnlockRouteImport } from './routes/admin.unlock'
 
 const AgendarRoute = AgendarRouteImport.update({
   id: '/agendar',
@@ -23,40 +25,65 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConfirmacaoBookingIdRoute = ConfirmacaoBookingIdRouteImport.update({
   id: '/confirmacao/$bookingId',
   path: '/confirmacao/$bookingId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUnlockRoute = AdminUnlockRouteImport.update({
+  id: '/admin/unlock',
+  path: '/admin/unlock',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agendar': typeof AgendarRoute
+  '/admin/unlock': typeof AdminUnlockRoute
   '/confirmacao/$bookingId': typeof ConfirmacaoBookingIdRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agendar': typeof AgendarRoute
+  '/admin/unlock': typeof AdminUnlockRoute
   '/confirmacao/$bookingId': typeof ConfirmacaoBookingIdRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agendar': typeof AgendarRoute
+  '/admin/unlock': typeof AdminUnlockRoute
   '/confirmacao/$bookingId': typeof ConfirmacaoBookingIdRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agendar' | '/confirmacao/$bookingId'
+  fullPaths:
+    '/' | '/agendar' | '/admin/unlock' | '/confirmacao/$bookingId' | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agendar' | '/confirmacao/$bookingId'
-  id: '__root__' | '/' | '/agendar' | '/confirmacao/$bookingId'
+  to: '/' | '/agendar' | '/admin/unlock' | '/confirmacao/$bookingId' | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/agendar'
+    | '/admin/unlock'
+    | '/confirmacao/$bookingId'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgendarRoute: typeof AgendarRoute
+  AdminUnlockRoute: typeof AdminUnlockRoute
   ConfirmacaoBookingIdRoute: typeof ConfirmacaoBookingIdRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,11 +102,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/confirmacao/$bookingId': {
       id: '/confirmacao/$bookingId'
       path: '/confirmacao/$bookingId'
       fullPath: '/confirmacao/$bookingId'
       preLoaderRoute: typeof ConfirmacaoBookingIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/unlock': {
+      id: '/admin/unlock'
+      path: '/admin/unlock'
+      fullPath: '/admin/unlock'
+      preLoaderRoute: typeof AdminUnlockRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -88,18 +129,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgendarRoute: AgendarRoute,
+  AdminUnlockRoute: AdminUnlockRoute,
   ConfirmacaoBookingIdRoute: ConfirmacaoBookingIdRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

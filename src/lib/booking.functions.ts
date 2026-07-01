@@ -174,7 +174,7 @@ export const createBooking = createServerFn({ method: "POST" })
       }
     }
 
-    const { data: booking, error } = await supabase
+    const { data: booking, error } = await supabaseAdmin
       .from("bookings")
       .insert({
         client_name: data.clientName,

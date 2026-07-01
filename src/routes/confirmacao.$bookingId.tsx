@@ -18,9 +18,12 @@ export const Route = createFileRoute("/confirmacao/$bookingId")({
       { name: "description", content: "A tua marcação na Kouratos Barber Club foi confirmada com sucesso." },
     ],
   }),
-  loader: ({ context, params }) =>
-    context.queryClient.ensureQueryData(bookingQueryOptions(params.bookingId)),
   component: ConfirmacaoPage,
+  pendingComponent: () => (
+    <div className="flex min-h-screen items-center justify-center text-muted-foreground">
+      A carregar marcação...
+    </div>
+  ),
   errorComponent: ({ error }) => (
     <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">

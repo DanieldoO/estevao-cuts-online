@@ -202,8 +202,9 @@ export const getBooking = createServerFn({ method: "POST" })
       .from("bookings")
       .select("*, services(name, price_euros, duration_minutes)")
       .eq("id", data.id)
-      .single();
+      .maybeSingle();
 
     if (error) throw new Error(error.message);
+    if (!booking) throw new Error("Marcação não encontrada.");
     return booking;
   });

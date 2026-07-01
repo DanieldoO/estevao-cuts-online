@@ -19,6 +19,11 @@ export const Route = createFileRoute("/confirmacao/$bookingId")({
     ],
   }),
   component: ConfirmacaoPage,
+  pendingComponent: () => (
+    <div className="flex min-h-screen items-center justify-center text-muted-foreground">
+      A carregar marcação...
+    </div>
+  ),
   errorComponent: ({ error }) => (
     <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">
